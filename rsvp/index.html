@@ -1,42 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leslie & Rodger's Wedding</title>
-    <style>
-        /* Center the content of the main section */
-        main {
-            text-align: center;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RSVP - Leslie & Rodger's Wedding</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    form {
+      display: none;
+      margin-top: 1rem;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
-
 <body>
-    <div id="header-container"></div>
+  <h2>RSVP</h2>
 
-    <main>
-        <h2>Welcome to Our Wedding!</h2>
-        <p>RSVP!</p>
-    </main>
+  <div id="name-check">
+    <p>Enter your name to RSVP:</p>
+    <input type="text" id="firstName" placeholder="First Name" required />
+    <input type="text" id="lastName" placeholder="Last Name" required />
+    <button id="checkName">Check</button>
+    <p id="name-message" style="color: red;"></p>
+  </div>
 
-    <div id="footer-container"></div>
+  <form id="rsvp-form" method="POST" target="_blank" action="https://docs.google.com/forms/d/1Mo1nlXK0j6Pwny9U6wlKrVv3kmHnkfwS_SmEJz3qVbs/formResponse">
+    <input type="hidden" name="entry.841300474" id="formFirstName" />
+    <input type="hidden" name="entry.1186545421" id="formLastName" />
 
-    <script>
-        // Function to load external HTML file into a container
-        function loadHTML(containerId, fileName) {
-            fetch(fileName)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById(containerId).innerHTML = data;
-                })
-                .catch(error => console.error('Error loading the file: ', error));
-        }
+    <label>Will you attend?</label><br/>
+    <select name="entry.1977640725" required>
+      <option value="">Select...</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+    </select><br/><br/>
 
-        // Load the header and footer dynamically
-        loadHTML("header-container", "/partials/header.html");
-        loadHTML("footer-container", "/partials/footer.html");
-    </script>
+    <label>Meal Preference</label><br/>
+    <select name="entry.136353009" required>
+      <option value="">Select...</option>
+      <option value="Chicken">Chicken</option>
+      <option value="Shrimp">Shrimp</option>
+    </select><br/><br/>
+
+    <button type="submit">Submit RSVP</button>
+  </form>
+
+  <script>
+    const validGuests = [
+      { first: "Rodger", last: "Pang" },
+      { first: "Leslie", last: "Wang" },
+      { first: "Jane", last: "Smith" },
+      { first: "John", last: "Doe" }
+    ];
+
+    document.getElementById("checkName").addEventListener("click", () => {
+      const first = document.getElementById("firstName").value.trim();
+      const last = document.getElementById("lastName").value.trim();
+      const message = document.getElementById("name-message");
+
+      const match = validGuests.find(g =>
+        g.first.toLowerCase() === first.toLowerCase() &&
+        g.last.toLowerCase() === last.toLowerCase()
+      );
+
+      if (match) {
+        document.getElementById("formFirstName").value = first;
+        document.getElementById("formLastName").value = last;
+        document.getElementById("rsvp-form").style.display = "block";
+        message.textContent = "";
+      } else {
+        message.textContent = "Sorry, we couldn't find your name on the guest list.";
+        document.getElementById("rsvp-form").style.display = "none";
+      }
+    });
+  </script>
 </body>
 </html>
