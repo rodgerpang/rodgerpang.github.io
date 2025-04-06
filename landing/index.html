@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leslie & Rodger's Wedding</title>
+    <style>
+        /* Center the content of the main section */
+        main {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header-container"></div>
+
+    <main>
+        <h2>Welcome to Our Wedding!</h2>
+        <p>Landing Page!</p>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script>
+        // Function to load external HTML file into a container
+        function loadHTML(containerId, fileName) {
+            fetch(fileName)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById(containerId).innerHTML = data;
+                })
+                .catch(error => console.error('Error loading the file: ', error));
+        }
+
+        // Load the header and footer dynamically
+        loadHTML("header-container", "/partials/header.html");
+        loadHTML("footer-container", "/partials/footer.html");
+    </script>
+</body>
+</html>
