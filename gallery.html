@@ -58,11 +58,19 @@
 </div>
 
 <script>
+    // Check if the user has been authenticated
+    if (!localStorage.getItem('authenticated')) {
+        // If not, redirect to the password page
+        window.location.href = 'index.html';
+    }
+
     function checkPassword() {
         const password = document.getElementById('password').value;
         const correctPassword = 'wedding2025'; // Set your password here
 
         if (password === correctPassword) {
+            // Store session in localStorage
+            localStorage.setItem('authenticated', 'true');
             // Show the gallery content
             document.getElementById('passwordPrompt').style.display = 'none';
             document.getElementById('galleryContent').style.display = 'block';

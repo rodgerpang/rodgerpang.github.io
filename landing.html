@@ -40,5 +40,13 @@
     <a href="schedule.html">Schedule</a>
 </nav>
 
+<script>
+    // Check if the user has been authenticated
+    if (!localStorage.getItem('authenticated')) {
+        // If not, redirect to the password page
+        window.location.href = 'index.html';
+    }
+</script>
+
 </body>
 </html>

@@ -48,7 +48,7 @@
 
 <div class="container">
     <div class="password-prompt">
-        <h1>Welcome to our Wedding Website!</h1>
+        <h1>1Welcome to our Wedding Website!</h1>
         <p>Please enter the password to continue:</p>
         <input type="password" id="password" placeholder="Enter password">
         <button onclick="checkPassword()">Submit</button>
@@ -61,8 +61,10 @@
         const correctPassword = 'wedding2025'; // Set your password here
 
         if (password === correctPassword) {
+            // Store session in localStorage
+            localStorage.setItem('authenticated', 'true');
             // Redirect to the main landing page after successful login
-            window.location.href = 'landing.html'; // Change this URL to your actual landing page
+            window.location.href = 'landing.html';
         } else {
             alert('Incorrect password. Please try again.');
         }
