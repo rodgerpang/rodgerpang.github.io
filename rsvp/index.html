@@ -68,7 +68,28 @@
 
         const allowedGuests = [
             { first: "Rodger", last: "Pang" },
-            { first: "John", last: "Doe" }
+            { first: "Leslie", last: "Wang" },
+            { first: "Larry", last: "Wang" },
+            { first: "Irene", last: "Cao" },
+            { first: "James", last: "Pang" },
+            { first: "Evelyn", last: "Pang" },
+            { first: "Ryan", last: "Gittleson" },
+            { first: "Jeffrey", last: "Wang" },
+            { first: "Cassidy", last: "Chansirik" },
+            { first: "Maya", last: "Cao" },
+            { first: "Ed", last: "Liu" },
+
+            { first: "Andrew", last: "Chan" },
+            { first: "Kristen", last: "Lum" },
+            { first: "Emmitt", last: "Burk" },
+            { first: "Placeholder", last: "Placeholder" },
+            { first: "Katherine", last: "Yang" },
+            { first: "Kevin", last: "Wang" },
+            { first: "Samuel", last: "Yauk" },
+            { first: "Zumin", last: "Chen" },
+            { first: "Cindy", last: "Chen" },
+            { first: "Jonathan", last: "Yip" },
+
             // Add more guests here
         ];
 
@@ -90,7 +111,7 @@
         }
 
         function fetchLatestRSVP(firstName, lastName) {
-            const sheetId = "121xHN9vq-vhGsXbGNFENLFtchdZs16gdAQ-azwo3vXE"; // replace with your actual sheet ID
+            const sheetId = "121xHN9vq-vhGsXbGNFENLFtchdZs16gdAQ-azwo3vXE"; // your sheet ID
             const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tq=${encodeURIComponent("SELECT *")}`;
 
             fetch(url)
@@ -99,28 +120,43 @@
                     const json = JSON.parse(data.substring(data.indexOf('{'), data.lastIndexOf('}') + 1));
                     const rows = json.table.rows;
 
+                    if (!rows || rows.length === 0) {
+                        showRSVPForm(firstName, lastName, null);
+                        return;
+                    }
+
                     const entries = rows.map(row => ({
-                        timestamp: fixDate(row.c[0]?.f || row.c[0]?.v),  // Fix timestamp format
-                        first: row.c[1]?.v,
-                        last: row.c[2]?.v,
-                        attending: row.c[3]?.v,
-                        meal: row.c[4]?.v
+                        timestamp: fixDate(row.c[0]?.f || row.c[0]?.v), // Timestamp from column 0
+                        first: row.c[1]?.v || "",
+                        last: row.c[2]?.v || "",
+                        attending: row.c[3]?.v || "",
+                        meal: row.c[4]?.v || ""
                     }));
 
-                    const filtered = entries.filter(e =>
-                        e.first?.toLowerCase() === firstName.toLowerCase() &&
-                        e.last?.toLowerCase() === lastName.toLowerCase()
+                    // Filter all matching names (case-insensitive)
+                    const matches = entries.filter(e =>
+                        e.first.toLowerCase() === firstName.toLowerCase() &&
+                        e.last.toLowerCase() === lastName.toLowerCase()
                     );
 
-                    if (filtered.length === 0) {
+                    if (matches.length === 0) {
                         showRSVPForm(firstName, lastName, null);
-                    } else {
-                        filtered.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-                        const latest = filtered[0];
-                        showRSVPForm(firstName, lastName, latest);
+                        return;
                     }
+
+                    // Sort by timestamp (most recent first)
+                    matches.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+                    showRSVPForm(firstName, lastName, matches[0]); // use most recent
+                })
+                .catch(err => {
+                    console.error("Error fetching RSVP data:", err);
+                    alert("Could not check your RSVP status. Please try again later.");
                 });
         }
+
+
+
 
         function fixDate(str) {
             if (!str) return null;
@@ -158,13 +194,12 @@
                         <option value="No">No</option>
                     </select>
 
-                    <div id="meal-options" style="display:none;">
+                    <div id="meal-options" style="display:block;">
                         <p>Meal choice:</p>
                         <select name="meal" required>
-                            <option value="">Select a meal...</option>
+                            <option value="No Meal">No Meal</option>
                             <option value="Chicken">Chicken</option>
                             <option value="Shrimp">Shrimp</option>
-                            <option value="No Meal">No Meal</option>
                         </select>
                     </div>
 
@@ -175,7 +210,13 @@
 
             setTimeout(() => {
                 document.querySelector("select[name='attending']").addEventListener("change", (e) => {
-                    document.getElementById("meal-options").style.display = e.target.value === "Yes" ? "block" : "none";
+                    const mealOptions = document.getElementById("meal-options");
+                    if (e.target.value === "No") {
+                        mealOptions.style.display = "none"; // Hide the meal options
+                        document.querySelector("select[name='meal']").value = "No Meal"; // Set default to No Meal
+                    } else {
+                        mealOptions.style.display = "block"; // Show the meal options
+                    }
                 });
             }, 100);
         }
@@ -184,11 +225,9 @@
             event.preventDefault();
 
             const attending = document.querySelector("select[name='attending']").value;
-
-            // If attending is "No", set meal to "No Meal"
-            const meal = attending === "Yes"
-                ? document.querySelector("select[name='meal']").value || "No Meal"
-                : "No Meal";  // Ensure "No Meal" is selected when attending is "No"
+            const meal = attending === "No"
+                ? "No Meal"  // Ensure "No Meal" is selected when attending is "No"
+                : document.querySelector("select[name='meal']").value || "No Meal";  // Default meal if no option is selected
 
             const formUrl = "https://docs.google.com/forms/d/1Mo1nlXK0j6Pwny9U6wlKrVv3kmHnkfwS_SmEJz3qVbs/formResponse"; // replace with your actual form URL
             const formData = new FormData();
