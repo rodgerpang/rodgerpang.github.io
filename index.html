@@ -9,66 +9,53 @@
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
             color: #333;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-        }
-        .password-prompt {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            text-align: center;
+            margin-top: 100px;
         }
         input[type="password"] {
             padding: 10px;
-            margin: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            font-size: 18px;
+            width: 200px;
         }
         button {
             padding: 10px 20px;
-            background-color: #28a745;
+            font-size: 18px;
+            background-color: #007bff;
             color: white;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
         }
         button:hover {
-            background-color: #218838;
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="password-prompt">
-        <h1>1Welcome to our Wedding Website!</h1>
-        <p>Please enter the password to continue:</p>
-        <input type="password" id="password" placeholder="Enter password">
-        <button onclick="checkPassword()">Submit</button>
-    </div>
-</div>
+<h1>Rodger & Leslie's Wedding</h1>
+<p>Enter the password to access our wedding website:</p>
+
+<!-- Password Input -->
+<input type="password" id="password" placeholder="Enter Password">
+<button onclick="checkPassword()">Enter</button>
 
 <script>
     function checkPassword() {
         const password = document.getElementById('password').value;
-        const correctPassword = 'wedding2025'; // Set your password here
-
-        if (password === correctPassword) {
-            // Store session in localStorage
+        if (password === 'millie') {
             localStorage.setItem('authenticated', 'true');
-            // Redirect to the main landing page after successful login
             window.location.href = 'landing.html';
         } else {
             alert('Incorrect password. Please try again.');
         }
     }
+
+    // Allow Enter key to submit password
+    document.getElementById('password').addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            checkPassword();
+        }
+    });
 </script>
 
 </body>
