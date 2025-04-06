@@ -1,84 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RSVP - Leslie & Rodger's Wedding</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 2rem;
-    }
-    form {
-      display: none;
-      margin-top: 1rem;
-    }
-    .hidden {
-      display: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leslie & Rodger's Wedding</title>
+    <style>
+        main {
+            text-align: center;
+            max-width: 500px;
+            margin: auto;
+            font-family: Arial, sans-serif;
+        }
+
+        input,
+        select,
+        button {
+            margin: 8px;
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        #meal-options {
+            margin-top: 10px;
+        }
+    </style>
 </head>
+
 <body>
-  <h2>RSVP</h2>
 
-  <div id="name-check">
-    <p>Enter your name to RSVP:</p>
-    <input type="text" id="firstName" placeholder="First Name" required />
-    <input type="text" id="lastName" placeholder="Last Name" required />
-    <button id="checkName">Check</button>
-    <p id="name-message" style="color: red;"></p>
-  </div>
+    <!-- Dynamically loaded Header -->
+    <div id="header-container"></div>
 
-  <form id="rsvp-form" method="POST" target="_blank" action="https://docs.google.com/forms/d/1Mo1nlXK0j6Pwny9U6wlKrVv3kmHnkfwS_SmEJz3qVbs/formResponse">
-    <input type="hidden" name="entry.841300474" id="formFirstName" />
-    <input type="hidden" name="entry.1186545421" id="formLastName" />
+    <main>
+        <h2>Welcome to Our Wedding!</h2>
+        <p>Please RSVP below</p>
 
-    <label>Will you attend?</label><br/>
-    <select name="entry.1977640725" required>
-      <option value="">Select...</option>
-      <option value="Yes">Yes</option>
-      <option value="No">No</option>
-    </select><br/><br/>
+        <input type="text" id="first-name" placeholder="First Name" />
+        <input type="text" id="last-name" placeholder="Last Name" />
+        <br />
+        <button onclick="checkRSVP()">Check RSVP</button>
 
-    <label>Meal Preference</label><br/>
-    <select name="entry.136353009" required>
-      <option value="">Select...</option>
-      <option value="Chicken">Chicken</option>
-      <option value="Shrimp">Shrimp</option>
-    </select><br/><br/>
+        <div id="a1-value-container"></div>
+    </main>
 
-    <button type="submit">Submit RSVP</button>
-  </form>
+    <!-- Dynamically loaded Footer -->
+    <div id="footer-container"></div>
 
-  <script>
-    const validGuests = [
-      { first: "Rodger", last: "Pang" },
-      { first: "Leslie", last: "Wang" },
-      { first: "Jane", last: "Smith" },
-      { first: "John", last: "Doe" }
-    ];
+    <script>
+        // Function to load external HTML file into a container
+        function loadHTML(containerId, fileName) {
+            fetch(fileName)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById(containerId).innerHTML = data;
+                })
+                .catch(error => console.error('Error loading the file: ', error));
+        }
 
-    document.getElementById("checkName").addEventListener("click", () => {
-      const first = document.getElementById("firstName").value.trim();
-      const last = document.getElementById("lastName").value.trim();
-      const message = document.getElementById("name-message");
+        // Load the header and footer dynamically
+        loadHTML("header-container", "/partials/header.html");
+        loadHTML("footer-container", "/partials/footer.html");
 
-      const match = validGuests.find(g =>
-        g.first.toLowerCase() === first.toLowerCase() &&
-        g.last.toLowerCase() === last.toLowerCase()
-      );
+        const allowedGuests = [
+            { first: "Rodger", last: "Pang" },
+            { first: "John", last: "Doe" }
+            // Add more guests here
+        ];
 
-      if (match) {
-        document.getElementById("formFirstName").value = first;
-        document.getElementById("formLastName").value = last;
-        document.getElementById("rsvp-form").style.display = "block";
-        message.textContent = "";
-      } else {
-        message.textContent = "Sorry, we couldn't find your name on the guest list.";
-        document.getElementById("rsvp-form").style.display = "none";
-      }
-    });
-  </script>
+        function checkRSVP() {
+            const first = document.getElementById("first-name").value.trim();
+            const last = document.getElementById("last-name").value.trim();
+
+            const isAllowed = allowedGuests.some(
+                g => g.first.toLowerCase() === first.toLowerCase() &&
+                     g.last.toLowerCase() === last.toLowerCase()
+            );
+
+            if (!isAllowed) {
+                alert("Sorry, you’re not on the guest list.");
+                return;
+            }
+
+            fetchLatestRSVP(first, last);
+        }
+
+        function fetchLatestRSVP(firstName, lastName) {
+            const sheetId = "121xHN9vq-vhGsXbGNFENLFtchdZs16gdAQ-azwo3vXE"; // replace with your actual sheet ID
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tq=${encodeURIComponent("SELECT *")}`;
+
+            fetch(url)
+                .then(res => res.text())
+                .then(data => {
+                    const json = JSON.parse(data.substring(data.indexOf('{'), data.lastIndexOf('}') + 1));
+                    const rows = json.table.rows;
+
+                    const entries = rows.map(row => ({
+                        timestamp: fixDate(row.c[0]?.f || row.c[0]?.v),  // Fix timestamp format
+                        first: row.c[1]?.v,
+                        last: row.c[2]?.v,
+                        attending: row.c[3]?.v,
+                        meal: row.c[4]?.v
+                    }));
+
+                    const filtered = entries.filter(e =>
+                        e.first?.toLowerCase() === firstName.toLowerCase() &&
+                        e.last?.toLowerCase() === lastName.toLowerCase()
+                    );
+
+                    if (filtered.length === 0) {
+                        showRSVPForm(firstName, lastName, null);
+                    } else {
+                        filtered.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                        const latest = filtered[0];
+                        showRSVPForm(firstName, lastName, latest);
+                    }
+                });
+        }
+
+        function fixDate(str) {
+            if (!str) return null;
+            const [date, time] = str.split(" ");
+            const [month, day, year] = date.split("/");
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}T${time}`;
+        }
+
+        function showRSVPForm(first, last, existingData) {
+            const container = document.getElementById("a1-value-container");
+            let html = `<h3>Hello ${first} ${last}!</h3>`;
+
+            if (existingData) {
+                html += `
+                    <p><strong>You’ve already RSVP'd:</strong></p>
+                    <p>Coming: ${existingData.attending}</p>
+                    <p>Meal: ${existingData.meal}</p>
+                    <button onclick="renderForm('${first}', '${last}', true)">Edit</button>
+                `;
+            } else {
+                html += `<button onclick="renderForm('${first}', '${last}', false)">RSVP Now</button>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function renderForm(first, last, isEdit) {
+            const container = document.getElementById("a1-value-container");
+            container.innerHTML = `
+                <form onsubmit="submitRSVP(event, '${first}', '${last}')">
+                    <p>Are you coming?</p>
+                    <select name="attending" required>
+                        <option value="">Select...</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+
+                    <div id="meal-options" style="display:none;">
+                        <p>Meal choice:</p>
+                        <select name="meal" required>
+                            <option value="">Select a meal...</option>
+                            <option value="Chicken">Chicken</option>
+                            <option value="Shrimp">Shrimp</option>
+                            <option value="No Meal">No Meal</option>
+                        </select>
+                    </div>
+
+                    <br />
+                    <button type="submit">${isEdit ? "Update RSVP" : "Submit RSVP"}</button>
+                </form>
+            `;
+
+            setTimeout(() => {
+                document.querySelector("select[name='attending']").addEventListener("change", (e) => {
+                    document.getElementById("meal-options").style.display = e.target.value === "Yes" ? "block" : "none";
+                });
+            }, 100);
+        }
+
+        function submitRSVP(event, first, last) {
+            event.preventDefault();
+
+            const attending = document.querySelector("select[name='attending']").value;
+
+            // If attending is "No", set meal to "No Meal"
+            const meal = attending === "Yes"
+                ? document.querySelector("select[name='meal']").value || "No Meal"
+                : "No Meal";  // Ensure "No Meal" is selected when attending is "No"
+
+            const formUrl = "https://docs.google.com/forms/d/1Mo1nlXK0j6Pwny9U6wlKrVv3kmHnkfwS_SmEJz3qVbs/formResponse"; // replace with your actual form URL
+            const formData = new FormData();
+
+            formData.append("entry.841300474", first);
+            formData.append("entry.1186545421", last);
+            formData.append("entry.1977640725", attending);
+            formData.append("entry.136353009", meal);  // Ensure meal is always set
+
+            fetch(formUrl, {
+                method: "POST",
+                mode: "no-cors",
+                body: formData
+            }).then(() => {
+                document.getElementById("a1-value-container").innerHTML = `
+                    <p>Thank you! Your RSVP has been submitted.</p>
+                `;
+            }).catch(() => {
+                document.getElementById("a1-value-container").innerHTML = `
+                    <p>There was an error submitting your RSVP. Please try again.</p>
+                `;
+            });
+        }
+
+    </script>
 </body>
+
 </html>
