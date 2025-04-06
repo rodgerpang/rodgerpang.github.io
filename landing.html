@@ -1,82 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rodger & Leslie's Wedding</title>
+    <title>Leslie & Rodger's Wedding</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
-            margin: 0;
-            padding: 0;
+        /* Center the content of the main section */
+        main {
             text-align: center;
-        }
-        nav {
-            margin-top: 20px;
-        }
-        nav a {
-            margin: 10px;
-            text-decoration: none;
-            color: #007bff;
-            font-size: 18px;
-        }
-        nav a:hover {
-            color: #0056b3;
-        }
-        /* Same styling for the button container across pages */
-        .button-container {
-            margin-top: 50px;
-        }
-        .btn {
-            padding: 10px 20px;
-            font-size: 18px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            margin: 10px;
-            border-radius: 5px;
-            display: inline-block;
-        }
-        .btn:hover {
-            background-color: #0056b3;
         }
     </style>
 </head>
+
 <body>
+    <div id="header-container"></div>
 
-<h1>Rodger & Leslie's Wedding</h1>
-<p>Welcome to our wedding website! Choose a section to explore:</p>
+    <main>
+        <h2>Welcome to Our Wedding!</h2>
+        <p>Filler content for now. Add your information here!</p>
+    </main>
 
-<!-- Navigation buttons for the landing page, consistent with other pages -->
-<div class="button-container">
-    <a href="schedule.html" class="btn">Schedule</a>
-    <a href="registry.html" class="btn">Registry</a>
-    <a href="gallery.html" class="btn">Gallery</a>
-    <a href="faq.html" class="btn">FAQ</a>
-    <a href="rsvp.html" class="btn">RSVP</a>
-</div>
+    <div id="footer-container"></div>
 
-<!-- Consistent navigation for easy access across all pages -->
-<nav>
-    <a href="landing.html">Home</a>
-    <a href="schedule.html">Schedule</a>
-    <a href="registry.html">Registry</a>
-    <a href="gallery.html">Gallery</a>
-    <a href="faq.html">FAQ</a>
-    <a href="rsvp.html">RSVP</a>
-</nav>
+    <script>
+        // Function to load external HTML file into a container
+        function loadHTML(containerId, fileName) {
+            fetch(fileName)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById(containerId).innerHTML = data;
+                })
+                .catch(error => console.error('Error loading the file: ', error));
+        }
 
-<script>
-    // Check if the user has been authenticated
-    if (!localStorage.getItem('authenticated')) {
-        // If not, redirect to the password page
-        window.location.href = 'index.html';
-    }
-</script>
-
+        // Load the header and footer dynamically
+        loadHTML("header-container", "header.html");
+        loadHTML("footer-container", "footer.html");
+    </script>
 </body>
 </html>
