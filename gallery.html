@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rodger & Leslie's Wedding</title>
+    <title>Gallery - Rodger & Leslie's Wedding</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,18 +11,13 @@
             color: #333;
             margin: 0;
             padding: 0;
-        }
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
+            text-align: center;
         }
         .password-prompt {
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin-top: 50px;
         }
         input[type="password"] {
             padding: 10px;
@@ -46,13 +41,20 @@
 </head>
 <body>
 
-<div class="container">
-    <div class="password-prompt">
-        <h1>Welcome to our Wedding Website!</h1>
-        <p>Please enter the password to continue:</p>
-        <input type="password" id="password" placeholder="Enter password">
-        <button onclick="checkPassword()">Submit</button>
-    </div>
+<h1>Gallery</h1>
+<p>Here are some of our favorite photos!</p>
+
+<!-- Content locked behind password -->
+<div class="password-prompt" id="passwordPrompt">
+    <p>Please enter the password to view the gallery:</p>
+    <input type="password" id="password" placeholder="Enter password">
+    <button onclick="checkPassword()">Submit</button>
+</div>
+
+<!-- Actual gallery content (hidden by default) -->
+<div id="galleryContent" style="display:none;">
+    <p>Here's the beautiful gallery!</p>
+    <!-- Add images or gallery content here -->
 </div>
 
 <script>
@@ -61,8 +63,9 @@
         const correctPassword = 'wedding2025'; // Set your password here
 
         if (password === correctPassword) {
-            // Redirect to the main landing page after successful login
-            window.location.href = 'landing.html'; // Change this URL to your actual landing page
+            // Show the gallery content
+            document.getElementById('passwordPrompt').style.display = 'none';
+            document.getElementById('galleryContent').style.display = 'block';
         } else {
             alert('Incorrect password. Please try again.');
         }
