@@ -6,20 +6,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leslie & Rodger's Wedding</title>
     <style>
+        /* Import Andale Mono font */
+        @import url('https://fonts.googleapis.com/css2?family=Andale+Mono&display=swap');
+
         /* Center the content of the main section */
         main {
             text-align: center;
+            padding: 0px; /* Add some padding around the content */
         }
+
+        /* Style for <p> tags inside the main section */
+        main p {
+            font-size: 20px; /* Adjust font size */
+            padding-top: 0px; /* Add top padding */
+            padding-bottom: 0px; /* Add bottom padding */
+            
+        }
+
+        .bigheading {
+            font-family: 'Arial', sans-serif; /* Sets the font */
+            font-size: 48px; /* Make the times a little larger */
+            color: rgb(0, 0, 0);   
+            margin-bottom: 45px;   
+            margin-top: 0px; 
+        }
+
+
+        /* Specific style for the time-related <p> tags */
+        .smalltitle {
+            font-family: 'Andale Mono', monospace; /* Change the font for times */
+            font-size: 22px; /* Make the times a little larger */
+            /* font-weight: bold; Make the time bold */
+            padding-top: 0px; /* Add more top padding for times */
+            padding-bottom: 20px; /* Less padding at the bottom for times */
+            margin: 0;
+        }
+
+        /* Description style for the event details */
+        .description {
+            font-family: 'Arial', sans-serif; /* Sets the font */
+            font-size: 22px; /* Make the times a little larger */
+            color: rgb(0, 0, 0);
+            padding-top: 8px; /* Add more top padding for times */
+            padding-bottom: 50px; /* Less padding at the bottom for times */
+            margin: 0px 10% 0px 10%;
+        }
+
+
     </style>
 </head>
 
-
-
-
-
-
 <body>
+
+
     <div id="header">
+        
         <style>
             /* Apply styles to the entire header div */
             #header {
@@ -101,11 +142,83 @@
             <a href="/gallery" style="text-decoration: underline;">gallery</a> <!-- Link to the gallery page -->
         </div>
     </div>
-    
 
+    
     <main>
-        <h2>Welcome to Our Wedding!</h2>
-        <p>Gallery!</p>
+        <p class="bigheading">gallery</p>
+
+        <!-- Event Schedule -->
+        <p class="description">please take a moment to browse through the memories we've captured. 
+            from candid moments to beautiful details, this gallery showcases the joy, laughter, 
+            and love shared on our special day. we hope you enjoy reliving these moments with us! </p>
+
+        <p class="smalltitle">beijing, china</p>
+
+        <!-- 2-Column Layout -->
+        <div class="gallery two-columns">
+            <img src="beijing1.jpg" alt="Photo 1" class="column-photo">
+            <img src="beijing2.jpg" alt="Photo 2" class="column-photo">
+        </div>
+
+
+        <!-- 1st Landscape Photo -->
+        <div class="gallery">
+            <img src="cherry.jpg" alt="Landscape Photo 1" class="landscape-photo">
+        </div>
+
+
+        <!-- 3-Column Layout -->
+        <div class="gallery three-columns">
+            <img src="beach.jpg" alt="Photo 1" class="column-photo">
+            <img src="costume.jpg" alt="Photo 2" class="column-photo">
+            <img src="graduation.jpg" alt="Photo 3" class="column-photo">
+        </div>
+
+        <style>
+            /* Basic Styling */
+            .gallery {
+                margin-bottom: 20px;
+            }
+        
+            .gallery img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 8px;
+                justify-content: center; /* Center the images in 3-column layout */
+            }
+        
+            /* Landscape Photo */
+            .landscape-photo {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        
+            /* 2-Column Layout */
+            .two-columns {
+                display: flex;
+                gap: 20px;
+                justify-content: center; /* Center the images in 3-column layout */
+            }
+        
+            .two-columns .column-photo {
+                width: 48%; /* Adjusts to make two images fit side by side */
+            }
+        
+            /* 3-Column Layout */
+            .three-columns {
+                display: flex;
+                gap: 20px;
+                justify-content: center; /* Center the images in 3-column layout */
+            }
+        
+            .three-columns .column-photo {
+                width: 28%; /* Adjusts to make three images fit side by side */
+            }
+        </style>
+
+
+
+
     </main>
 
     <div id="footer">
@@ -133,5 +246,6 @@
         </p>
     </div>
 
+ 
 </body>
 </html>
