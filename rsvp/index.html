@@ -31,10 +31,91 @@
     </style>
 </head>
 
-<body>
+<div id="header">
+    <style>
+        /* Apply styles to the entire header div */
+        #header {
+            padding-bottom: 50px; /* Adds padding below the header */
+        }
+        /* Import Andale Mono font */
+        @import url('https://fonts.googleapis.com/css2?family=Andale+Mono&display=swap');
+        
+        /* Apply styles to the entire header div */
+        #header {
+            text-align: center; /* Centers all content inside the #header div */
+            font-family: 'Arial', sans-serif; /* Sets the font for all content inside the #header */
+        }
 
-    <!-- Dynamically loaded Header -->
-    <div id="header-container"></div>
+        /* Style for the navigation links container */
+        .nav-links {
+            margin-top: 20px; /* Adds space above the navigation links */
+            border-top: 1px solid black; /* Black horizontal line above */
+            border-bottom: 1px solid black; /* Black horizontal line below */
+            padding-top: 30px; /* Adds padding between the top line and the links */
+            padding-bottom: 30px; /* Adds padding between the links and the bottom line */
+        }
+
+        /* Style for each link inside the navigation */
+        .nav-links a {
+            font-family: 'Andale Mono', monospace; /* Change the font for times */
+            padding: 0 16px; /* Adds horizontal space between each navigation link */
+            text-decoration: none; /* Removes the underline from the links */
+            font-size: 20px;
+            color: rgb(0, 0, 0);
+        }
+
+        /* Adding Flexbox to the main content */
+        .side-by-side {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding: 20px;
+        }
+
+        /* Style for left side */
+        .left {
+            margin: 0px 0px 0px 0px;
+            width: 100%;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        /* Style for right side */
+        .right {
+            margin: 0px 0px 0px 0px;
+            width: 100%;
+            font-size: 16px;
+            text-align: right;
+            font-family: 'Andale Mono', monospace; /* Change the font for times */
+        }
+
+        /* Remove underline specifically from the RSVP link */
+        .right a {
+            text-decoration: underline; /* Adds an underline to the RSVP link */
+            color: rgb(0, 0, 0); /* Keeps the color the same as other links */
+        }
+
+
+    </style>
+
+    <!-- Navigation links for the website -->
+    <div class="side-by-side">
+        <p class="left">leslie & rodger</p>
+        <div class="right">
+            <a href="/rsvp">rsvp</a> <!-- Link to the RSVP page -->
+        </div>
+    </div>
+
+
+    <!-- Navigation links for the website -->
+    <div class="nav-links">
+        <a href="/schedule">schedule</a> <!-- Link to the schedule page -->
+        <a href="/details">details</a> <!-- Link to the details page -->
+        <a href="/gallery">gallery</a> <!-- Link to the gallery page -->
+    </div>
+</div>
+
 
     <main>
         <h2>Welcome to Our Wedding!</h2>
@@ -48,24 +129,33 @@
         <div id="a1-value-container"></div>
     </main>
 
-    <!-- Dynamically loaded Footer -->
-    <div id="footer-container"></div>
+    <div id="footer">
+        <style>
+            /* Apply styles to the entire footer div */
+            #footer {
+                text-align: center; /* Centers all content inside the #footer div */
+                font-family: 'Arial', sans-serif; /* Sets the font for all content inside the footer */
+                margin-top: 40px; /* Adds space above the footer content */
+                padding: 20px; /* Adds space inside the footer */
+                /* background-color: #f1f1f1; Gives a light background color to the footer */
+                opacity: 0.35;
+            }
+    
+            /* Style for the credits section */
+            #footer .credits {
+                font-size: 0.9em; /* Slightly smaller font for credits */
+                color: #000000; /* Sets a grey color for the credits text */
+            }
+        </style>
+    
+        <!-- Credits section -->
+        <p class="credits">
+            designed & developed by leslie & rodger
+        </p>
+    </div>
+    
 
     <script>
-        // Function to load external HTML file into a container
-        function loadHTML(containerId, fileName) {
-            fetch(fileName)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById(containerId).innerHTML = data;
-                })
-                .catch(error => console.error('Error loading the file: ', error));
-        }
-
-        // Load the header and footer dynamically
-        loadHTML("header-container", "/partials/header.html");
-        loadHTML("footer-container", "/partials/footer.html");
-
         const allowedGuests = [
             { first: "Rodger", last: "Pang" },
             { first: "Leslie", last: "Wang" },
@@ -253,6 +343,8 @@
         }
 
     </script>
+
+    
 </body>
 
 </html>
