@@ -11,19 +11,85 @@
         }
     </script>
     <style>
+        /* Import Andale Mono font */
+        @import url('https://fonts.googleapis.com/css2?family=Andale+Mono&display=swap');
+
+        /* Center the content of the main section */
         main {
             text-align: center;
-            max-width: 500px;
-            margin: auto;
-            font-family: Arial, sans-serif;
+            padding: 0px; /* Add some padding around the content */
+        }
+
+        /* Style for <p> tags inside the main section */
+        main p {
+            font-size: 20px; /* Adjust font size */
+            padding-top: 0px; /* Add top padding */
+            padding-bottom: 0px; /* Add bottom padding */
+            
+        }
+
+        .bigheading {
+            font-family: 'Arial', sans-serif; /* Sets the font */
+            font-size: 48px; /* Make the times a little larger */
+            color: rgb(0, 0, 0);   
+            margin-bottom: 45px;   
+            margin-top: 0px; 
+        }
+
+
+        /* Specific style for the time-related <p> tags */
+        .smalltitle {
+            font-family: 'Andale Mono', monospace; /* Change the font for times */
+            font-size: 22px; /* Make the times a little larger */
+            /* font-weight: bold; Make the time bold */
+            padding-top: 0px; /* Add more top padding for times */
+            padding-bottom: 0px; /* Less padding at the bottom for times */
+            margin: 0;
+        }
+
+        /* Description style for the event details */
+        .description {
+            font-family: 'Arial', sans-serif; /* Sets the font */
+            font-size: 24px; /* Make the times a little larger */
+            color: rgb(0, 0, 0);
+            padding-top: 0px; /* Add more top padding for times */
+            padding-bottom: 30px; /* Less padding at the bottom for times */
+            margin: 0px 10% 0px 10%;
+        }
+
+        .rsvp-box {
+            background-color: #000000; /* periwinkle */
+            padding: 6px 14px;
+            border-radius: 8px;
+            /* font-weight: bold; */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         input,
-        select,
-        button {
+        select {
             margin: 8px;
             padding: 8px;
             font-size: 16px;
+            border-radius: 25px; /* Rounded edges */
+            font-family: 'Andale Mono', monospace;
+            border: 2px solid black;      
+            width: 130px; /* Set a specific width */
+            max-width: 90%; /* Make sure it doesn’t overflow on smaller screens */
+        }
+
+        button {
+            margin-top: 8px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #ffaab9;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 25px;
+            font-family: 'Andale Mono', monospace;     
+            justify-content: center;    
+            width: 150px; /* Set a specific width */
+            max-width: 90%; /* Make sure it doesn’t overflow on smaller screens */
         }
 
         form {
@@ -101,15 +167,22 @@
             color: rgb(255, 255, 255); /* Keeps the color the same as other links */
         }
 
-        .rsvp-box {
-            background-color: #000000; /* periwinkle */
-            padding: 6px 14px;
-            border-radius: 8px;
-            /* font-weight: bold; */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        .greeting {
+            font-family: 'Arial', sans-serif; /* Sets the font */
+            font-size: 24px; /* Make the times a little larger */
+            color: rgb(0, 0, 0);
+            padding-top: 16px; /* Add more top padding for times */
+            padding-bottom: 0px; /* Less padding at the bottom for times */
+            margin: 0px 10% 0px 10%;
         }
 
-
+        .greeting2 {
+            font-family: 'Andale Mono', monospace; /* Change the font for times */
+            font-size: 16px; /* Make the times a little larger */
+            color: rgb(0, 0, 0);
+            padding-top: 16px; /* Add more top padding for times */
+            padding-bottom: 0px; /* Less padding at the bottom for times */
+            margin: 0px 10% 0px 10%;
     </style>
 
     <!-- Navigation links for the website -->
@@ -131,13 +204,20 @@
 
 
     <main>
-        <h2>Welcome to Our Wedding!</h2>
-        <p>Please RSVP below</p>
+        <p class="bigheading">rsvp</p>
 
-        <input type="text" id="first-name" placeholder="First Name" />
-        <input type="text" id="last-name" placeholder="Last Name" />
-        <br />
-        <button onclick="checkRSVP()">Check RSVP</button>
+        <!-- Event Schedule -->
+        <p class="description">enter your name below.</p>
+
+        <div>
+            <input type="text" id="first-name" placeholder="first Name" />
+        </div>
+        <div>
+            <input type="text" id="last-name" placeholder="last Name" />
+        </div>
+        <div style="text-align: center;">
+            <button onclick="checkRSVP()">check rsvp</button>
+        </div>
 
         <div id="a1-value-container"></div>
     </main>
@@ -270,53 +350,66 @@
 
         function showRSVPForm(first, last, existingData) {
             const container = document.getElementById("a1-value-container");
-            let html = `<h3>Hello ${first} ${last}!</h3>`;
+            let html = `<p class="greeting">hi ${first.toLowerCase()}.</p>`;
+
 
             if (existingData) {
                 html += `
-                    <p><strong>You’ve already RSVP'd:</strong></p>
-                    <p>Coming: ${existingData.attending}</p>
-                    <p>Meal: ${existingData.meal}</p>
-                    <button onclick="renderForm('${first}', '${last}', true)">Edit</button>
+                    <p class="greeting">would you like to edit your rsvp?</p>
+                    <p class="greeting2">coming: ${existingData.attending}</p>
+                    <p class="greeting2">meal: ${existingData.meal}</p>
+                    <button onclick="renderForm('${first}', '${last}', true)">edit</button>
                 `;
             } else {
-                html += `<button onclick="renderForm('${first}', '${last}', false)">RSVP Now</button>`;
+                html += `<button onclick="renderForm('${first}', '${last}', false)">rsvp now</button>`;
             }
 
             container.innerHTML = html;
         }
+        document.addEventListener('DOMContentLoaded', () => {
+            const mealOptions = document.getElementById("meal-options");
+            mealOptions.style.display = "none"; // Initially hide the meal options
+
+            document.querySelector("select[name='attending']").addEventListener("change", (e) => {
+                if (e.target.value.toLowerCase() === "yes") {
+                    mealOptions.style.display = "block"; // Show meal options when "Yes" is selected
+                } else {
+                    mealOptions.style.display = "none"; // Hide meal options when "No" is selected
+                    document.querySelector("select[name='meal']").value = "no meal"; // Set default to "No Meal"
+                }
+            });
+        });
 
         function renderForm(first, last, isEdit) {
             const container = document.getElementById("a1-value-container");
             container.innerHTML = `
                 <form onsubmit="submitRSVP(event, '${first}', '${last}')">
-                    <p>Are you coming?</p>
+                    <p class="greeting">are you coming?</p>
                     <select name="attending" required>
-                        <option value="">Select...</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
+                        <option value="yes">yes</option>
+                        <option value="no">no</option>
                     </select>
 
                     <div id="meal-options" style="display:block;">
-                        <p>Meal choice:</p>
+                        <p class="greeting">what would you like to eat?</p>
                         <select name="meal" required>
-                            <option value="No Meal">No Meal</option>
-                            <option value="Chicken">Chicken</option>
-                            <option value="Shrimp">Shrimp</option>
+                            <option value="no meal">no meal</option>
+                            <option value="chicken">chicken</option>
+                            <option value="shrimp">shrimp</option>
                         </select>
                     </div>
 
                     <br />
-                    <button type="submit">${isEdit ? "Update RSVP" : "Submit RSVP"}</button>
+                    <button type="submit">${isEdit ? "update rsvp" : "submit rsvp"}</button>
                 </form>
             `;
 
             setTimeout(() => {
                 document.querySelector("select[name='attending']").addEventListener("change", (e) => {
                     const mealOptions = document.getElementById("meal-options");
-                    if (e.target.value === "No") {
+                    if (e.target.value !== "yes") {
                         mealOptions.style.display = "none"; // Hide the meal options
-                        document.querySelector("select[name='meal']").value = "No Meal"; // Set default to No Meal
+                        document.querySelector("select[name='meal']").value = "no meal"; // Set default to No Meal
                     } else {
                         mealOptions.style.display = "block"; // Show the meal options
                     }
@@ -328,17 +421,17 @@
             event.preventDefault();
 
             const attending = document.querySelector("select[name='attending']").value;
-            const meal = attending === "No"
-                ? "No Meal"  // Ensure "No Meal" is selected when attending is "No"
-                : document.querySelector("select[name='meal']").value || "No Meal";  // Default meal if no option is selected
+            const meal = attending === "no"
+                ? "no Meal"  // Ensure "No Meal" is selected when attending is "No"
+                : document.querySelector("select[name='meal']").value || "no meal";  // Default meal if no option is selected
 
             const formUrl = "https://docs.google.com/forms/d/1Mo1nlXK0j6Pwny9U6wlKrVv3kmHnkfwS_SmEJz3qVbs/formResponse"; // replace with your actual form URL
             const formData = new FormData();
 
-            formData.append("entry.841300474", first);
-            formData.append("entry.1186545421", last);
-            formData.append("entry.1977640725", attending);
-            formData.append("entry.136353009", meal);  // Ensure meal is always set
+            formData.append("entry.841300474", first.toLowerCase());
+            formData.append("entry.1186545421", last.toLowerCase());
+            formData.append("entry.1977640725", attending.toLowerCase());
+            formData.append("entry.136353009", meal.toLowerCase());  // Ensure meal is always set
 
             fetch(formUrl, {
                 method: "POST",
@@ -346,11 +439,11 @@
                 body: formData
             }).then(() => {
                 document.getElementById("a1-value-container").innerHTML = `
-                    <p>Thank you! Your RSVP has been submitted.</p>
+                    <p class="greeting2">your rvsp has been updated</p>
                 `;
             }).catch(() => {
                 document.getElementById("a1-value-container").innerHTML = `
-                    <p>There was an error submitting your RSVP. Please try again.</p>
+                    <p class="greeting2">error occured while submitting</p>
                 `;
             });
         }
