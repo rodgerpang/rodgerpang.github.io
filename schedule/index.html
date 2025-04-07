@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leslie & Rodger's Wedding</title>
+    <script>
+        if (localStorage.getItem('authenticated') !== 'true') {
+            window.location.href = '/';
+        }
+    </script>
     <style>
         /* Import Andale Mono font */
         @import url('https://fonts.googleapis.com/css2?family=Andale+Mono&display=swap');
@@ -47,11 +52,18 @@
             font-family: 'Arial', sans-serif; /* Sets the font */
             font-size: 36px; /* Make the times a little larger */
             color: rgb(0, 0, 0);
-            padding-top: 8px; /* Add more top padding for times */
-            padding-bottom: 0px; /* Less padding at the bottom for times */
+            padding-top: 0px; /* Add more top padding for times */
+            padding-bottom: 50px; /* Less padding at the bottom for times */
             margin: 0px 10% 0px 10%;
         }
 
+        .rsvp-box {
+            background-color: #000000; /* periwinkle */
+            padding: 6px 14px;
+            border-radius: 8px;
+            /* font-weight: bold; */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
 
     </style>
 </head>
@@ -106,7 +118,7 @@
                 margin: 0px 0px 0px 0px;
                 width: 100%;
                 font-family: Arial, sans-serif;
-                font-size: 16px;
+                font-size: 20px;
                 text-align: left;
             }
     
@@ -114,7 +126,7 @@
             .right {
                 margin: 0px 0px 0px 0px;
                 width: 100%;
-                font-size: 16px;
+                font-size: 20px;
                 text-align: right;
                 font-family: 'Andale Mono', monospace; /* Change the font for times */
             }
@@ -122,7 +134,7 @@
             /* Remove underline specifically from the RSVP link */
             .right a {
                 text-decoration: none; /* Removes underline for the RSVP link */
-                color: rgb(0, 0, 0); /* Same color as other links */
+                color: rgb(255, 255, 255); /* Same color as other links */
             }
     
         </style>
@@ -131,7 +143,7 @@
         <div class="side-by-side">
             <p class="left">leslie & rodger</p>
             <div class="right">
-                <a href="/rsvp">rsvp</a> <!-- Link to the RSVP page --> 
+                <a href="/rsvp"><span class="rsvp-box">rsvp</span></a>
             </div>
         </div>
     
