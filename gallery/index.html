@@ -10,6 +10,7 @@
             window.location.href = '/';
         }
     </script>
+
     <style>
         /* Import Andale Mono font */
         @import url('https://fonts.googleapis.com/css2?family=Andale+Mono&display=swap');
@@ -165,67 +166,90 @@
             from candid moments to beautiful details, this gallery showcases the joy, laughter, 
             and love shared on our special day. we hope you enjoy reliving these moments with us! </p>
 
-        <p class="smalltitle">beijing, china</p>
-
         <!-- 2-Column Layout -->
+
+        <div class="gallery one-column">
+            <img src="red1.jpg" alt="Photo 1" class="column-photo">
+        </div>
+
         <div class="gallery two-columns">
-            <img src="beijing1.jpg" alt="Photo 1" class="column-photo">
-            <img src="beijing2.jpg" alt="Photo 2" class="column-photo">
+            <img src="red2.jpg" alt="Photo 1" class="column-photo">
+            <img src="red3.jpg" alt="Photo 2" class="column-photo">
+        </div>
+
+        <!-- 3-Column Layout -->
+        <div class="gallery three-columns">
+            <img src="park2.jpg" alt="Photo 1" class="column-photo">
+            <img src="park1.jpg" alt="Photo 2" class="column-photo">
+            <img src="park3.jpg" alt="Photo 3" class="column-photo">
         </div>
 
 
-        <!-- 1st Landscape Photo -->
-        <div class="gallery">
-            <img src="cherry.jpg" alt="Landscape Photo 1" class="landscape-photo">
+
+        <div class="gallery two-columns">
+            <img src="window0.jpg" alt="Photo 1" class="column-photo">
+            <img src="window1.jpg" alt="Photo 2" class="column-photo">
         </div>
+
+        <div class="gallery two-columns">
+            <img src="indoor1.jpg" alt="Photo 1" class="column-photo">
+            <img src="indoor2.jpg" alt="Photo 2" class="column-photo">
+        </div>
+
+        <div class="gallery two-columns">
+            <img src="cherry.jpg" alt="Photo 1" class="column-photo">
+            <img src="cherry2.jpg" alt="Photo 2" class="column-photo">
+        </div>        
+
 
 
         <!-- 3-Column Layout -->
         <div class="gallery three-columns">
             <img src="beach.jpg" alt="Photo 1" class="column-photo">
-            <img src="costume.jpg" alt="Photo 2" class="column-photo">
+            <img src="millie.jpg" alt="Photo 2" class="column-photo">
             <img src="graduation.jpg" alt="Photo 3" class="column-photo">
         </div>
 
+
+        <div class="gallery three-columns">
+            <img src="costume3.jpg" alt="Photo 1" class="column-photo">
+            <img src="costume4.jpg" alt="Photo 2" class="column-photo">
+        </div>
+
+        <div class="gallery three-columns">
+            <img src="costume1.jpg" alt="Photo 1" class="column-photo">
+            <img src="costume.jpg" alt="Photo 2" class="column-photo">
+            <img src="costume2.jpg" alt="Photo 3" class="column-photo">
+        </div>
+
+
         <style>
-            /* Basic Styling */
+            /* Gallery container with general bottom spacing */
             .gallery {
-                margin-bottom: 20px;
+                display: flex;
+                gap: 2%;
+                justify-content: center;
+                margin-bottom: 2%;
+                margin-left: 10%;
+                margin-right: 10%;
             }
-        
-            .gallery img {
-                max-width: 100%;
-                height: auto;
-                border-radius: 8px;
-                justify-content: center; /* Center the images in 3-column layout */
-            }
-        
-            /* Landscape Photo */
-            .landscape-photo {
+
+            /* All gallery images */
+            .one-column img {
                 width: 100%;
-                margin-bottom: 20px;
+                border-radius: 30px;
             }
-        
-            /* 2-Column Layout */
-            .two-columns {
-                display: flex;
-                gap: 20px;
-                justify-content: center; /* Center the images in 3-column layout */
+
+            /* 2-column layout */
+            .two-columns img {
+                width: 50%;
+                border-radius: 30px;
             }
-        
-            .two-columns .column-photo {
-                width: 48%; /* Adjusts to make two images fit side by side */
-            }
-        
-            /* 3-Column Layout */
-            .three-columns {
-                display: flex;
-                gap: 20px;
-                justify-content: center; /* Center the images in 3-column layout */
-            }
-        
-            .three-columns .column-photo {
-                width: 28%; /* Adjusts to make three images fit side by side */
+
+            /* 3-column layout */
+            .three-columns img {
+                width: 33.33%;
+                border-radius: 30px;
             }
 
         </style>
