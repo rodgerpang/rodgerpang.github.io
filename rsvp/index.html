@@ -97,9 +97,7 @@
             margin-top: 20px;
         }
 
-        #meal-options {
-            margin-top: 10px;
-        }
+
     </style>
 </head>
 
@@ -314,7 +312,7 @@
                         first: row.c[1]?.v || "",
                         last: row.c[2]?.v || "",
                         attending: row.c[3]?.v || "",
-                        meal: row.c[4]?.v || ""
+
                     }));
 
                     // Filter all matching names (case-insensitive)
@@ -358,7 +356,6 @@
                 html += `
                     <p class="greeting">would you like to edit your rsvp?</p>
                     <p class="greeting2">coming: ${existingData.attending}</p>
-                    <p class="greeting2">meal: ${existingData.meal}</p>
                     <button onclick="renderForm('${first}', '${last}', true)">edit</button>
                 `;
             } else {
@@ -367,19 +364,6 @@
 
             container.innerHTML = html;
         }
-        document.addEventListener('DOMContentLoaded', () => {
-            const mealOptions = document.getElementById("meal-options");
-            mealOptions.style.display = "none"; // Initially hide the meal options
-
-            document.querySelector("select[name='attending']").addEventListener("change", (e) => {
-                if (e.target.value.toLowerCase() === "yes") {
-                    mealOptions.style.display = "block"; // Show meal options when "Yes" is selected
-                } else {
-                    mealOptions.style.display = "none"; // Hide meal options when "No" is selected
-                    document.querySelector("select[name='meal']").value = "no meal"; // Set default to "No Meal"
-                }
-            });
-        });
 
         function renderForm(first, last, isEdit) {
             const container = document.getElementById("a1-value-container");
@@ -391,48 +375,23 @@
                         <option value="no">no</option>
                     </select>
 
-                    <div id="meal-options" style="display:block;">
-                        <p class="greeting">what would you like to eat?</p>
-                        <select name="meal" required>
-                            <option value="no meal">no meal</option>
-                            <option value="chicken">chicken</option>
-                            <option value="shrimp">shrimp</option>
-                        </select>
-                    </div>
-
                     <br />
                     <button type="submit">${isEdit ? "update rsvp" : "submit rsvp"}</button>
                 </form>
             `;
 
-            setTimeout(() => {
-                document.querySelector("select[name='attending']").addEventListener("change", (e) => {
-                    const mealOptions = document.getElementById("meal-options");
-                    if (e.target.value !== "yes") {
-                        mealOptions.style.display = "none"; // Hide the meal options
-                        document.querySelector("select[name='meal']").value = "no meal"; // Set default to No Meal
-                    } else {
-                        mealOptions.style.display = "block"; // Show the meal options
-                    }
-                });
-            }, 100);
         }
 
         function submitRSVP(event, first, last) {
             event.preventDefault();
 
             const attending = document.querySelector("select[name='attending']").value;
-            const meal = attending === "no"
-                ? "no Meal"  // Ensure "No Meal" is selected when attending is "No"
-                : document.querySelector("select[name='meal']").value || "no meal";  // Default meal if no option is selected
-
             const formUrl = "https://docs.google.com/forms/d/1Mo1nlXK0j6Pwny9U6wlKrVv3kmHnkfwS_SmEJz3qVbs/formResponse"; // replace with your actual form URL
             const formData = new FormData();
 
             formData.append("entry.841300474", first.toLowerCase());
             formData.append("entry.1186545421", last.toLowerCase());
             formData.append("entry.1977640725", attending.toLowerCase());
-            formData.append("entry.136353009", meal.toLowerCase());  // Ensure meal is always set
 
             fetch(formUrl, {
                 method: "POST",
